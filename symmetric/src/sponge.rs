@@ -26,7 +26,7 @@ impl<P, const WIDTH: usize, const RATE: usize, const OUT: usize>
 impl<T, P, const WIDTH: usize, const RATE: usize, const OUT: usize> CryptographicHasher<T, [T; OUT]>
     for PaddingFreeSponge<P, WIDTH, RATE, OUT>
 where
-    T: Default + Copy,
+    T: Default + Copy + std::fmt::Debug,
     P: CryptographicPermutation<[T; WIDTH]>,
 {
     fn hash_iter<I>(&self, input: I) -> [T; OUT]
@@ -35,9 +35,13 @@ where
     {
         // static_assert(RATE < WIDTH)
         let mut state = [T::default(); WIDTH];
+        let mut i = 0;
         for input_chunk in &input.into_iter().chunks(RATE) {
             state.iter_mut().zip(input_chunk).for_each(|(s, i)| *s = i);
+            println!("before state[{:?}] {:?}", i, state);
             state = self.permutation.permute(state);
+            println!("after state[{:?}] {:?}", i, state);
+            i += 1;
         }
         state[..OUT].try_into().unwrap()
     }
