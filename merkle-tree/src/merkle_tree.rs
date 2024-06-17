@@ -38,7 +38,7 @@ impl<F: Clone + Send + Sync, W: Clone, M: Matrix<F>, const DIGEST_ELEMS: usize>
     pub fn new<P, PW, H, C>(h: &H, c: &C, leaves: Vec<M>) -> Self
     where
         P: PackedField<Scalar = F>,
-        PW: PackedValue<Value = W>,
+        PW: PackedValue<Value = W> + std::fmt::Debug,
         H: CryptographicHasher<F, [W; DIGEST_ELEMS]>,
         H: CryptographicHasher<P, [PW; DIGEST_ELEMS]>,
         H: Sync,
@@ -119,7 +119,7 @@ fn first_digest_layer<P, PW, H, M, const DIGEST_ELEMS: usize>(
 ) -> Vec<[PW::Value; DIGEST_ELEMS]>
 where
     P: PackedField,
-    PW: PackedValue,
+    PW: PackedValue + std::fmt::Debug,
     H: CryptographicHasher<P::Scalar, [PW::Value; DIGEST_ELEMS]>,
     H: CryptographicHasher<P, [PW; DIGEST_ELEMS]>,
     H: Sync,
@@ -142,7 +142,11 @@ where
                     .iter()
                     .flat_map(|m| m.vertically_packed_row(first_row)),
             );
+            // println!("packed_digest: {:?}", packed_digest);
             for (dst, src) in digests_chunk.iter_mut().zip(unpack_array(packed_digest)) {
+                // for i in 0..src.len() {
+                //     println!("src[{:?}]: {:?}", i, src[i]);
+                // }
                 *dst = src;
             }
         });

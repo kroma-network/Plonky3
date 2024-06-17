@@ -7,13 +7,18 @@ use crate::AbstractField;
 /// A trait to constrain types that can be packed into a packed value.
 ///
 /// The `Packable` trait allows us to specify implementations for potentially conflicting types.
-pub trait Packable: 'static + Default + Copy + Send + Sync + PartialEq + Eq {}
+pub trait Packable:
+    'static + Default + Copy + Send + Sync + PartialEq + Eq + std::fmt::Debug
+{
+}
 
 /// # Safety
 /// - `WIDTH` is assumed to be a power of 2.
 /// - If `P` implements `PackedField` then `P` must be castable to/from `[P::Value; P::WIDTH]`
 ///   without UB.
-pub unsafe trait PackedValue: 'static + Copy + From<Self::Value> + Send + Sync {
+pub unsafe trait PackedValue:
+    'static + Copy + From<Self::Value> + Send + Sync + std::fmt::Debug
+{
     type Value: Packable;
 
     const WIDTH: usize;

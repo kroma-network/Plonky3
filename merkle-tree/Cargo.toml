@@ -25,6 +25,9 @@ p3-rescue = { path = "../rescue" }
 criterion = "0.5.1"
 rand = "0.8.5"
 
+ff = { version = "0.13", features = ["derive", "derive_bits"] }
+zkhash = { git = "https://github.com/HorizenLabs/poseidon2" }
+
 [[bench]]
 name = "merkle_tree"
 harness = false

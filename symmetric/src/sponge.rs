@@ -26,7 +26,7 @@ impl<P, const WIDTH: usize, const RATE: usize, const OUT: usize>
 impl<T, P, const WIDTH: usize, const RATE: usize, const OUT: usize> CryptographicHasher<T, [T; OUT]>
     for PaddingFreeSponge<P, WIDTH, RATE, OUT>
 where
-    T: Default + Copy,
+    T: Default + Copy + std::fmt::Debug,
     P: CryptographicPermutation<[T; WIDTH]>,
 {
     fn hash_iter<I>(&self, input: I) -> [T; OUT]
