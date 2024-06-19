@@ -48,6 +48,20 @@ mod test_quadratic_extension {
     type F = Goldilocks;
     type EF = BinomialExtensionField<F, 2>;
 
+    #[test]
+    fn test_add_neg_sub_mul() {
+        // p3_field_testing::test_add_neg_sub_mul::<super::EF>();
+        let x = EF {
+            value: [F::new(0), F::new(1)],
+        };
+        let y = EF {
+            value: [F::new(2), F::new(3)],
+        };
+        println!("x: {:?}, y: {:?}", x, y);
+        println!("x + y: {:?}", x + y);
+        println!("x * y: {:?}", x * y);
+    }
+
     test_field!(super::EF);
 
     test_two_adic_extension_field!(super::F, super::EF);

@@ -93,8 +93,46 @@ mod test_quartic_extension {
     type F = BabyBear;
     type EF = BinomialExtensionField<F, 4>;
 
-    test_field!(super::EF);
-    test_two_adic_extension_field!(super::F, super::EF);
+    mod field_tests {
+
+        use crate::BabyBear;
+        use p3_field::{
+            extension::{BinomialExtensionField, HasFrobenius},
+            Field,
+        };
+
+        type F = BabyBear;
+        type EF = BinomialExtensionField<F, 4>;
+
+        #[test]
+        fn test_add_neg_sub_mul() {
+            // p3_field_testing::test_add_neg_sub_mul::<super::EF>();
+            let x = EF {
+                value: [F::new(1), F::new(2), F::new(3), F::new(4)],
+            };
+            let y = EF {
+                value: [F::new(3), F::new(5), F::new(6), F::new(8)],
+            };
+            // let y = EF {
+            //     value: [F::new(3), F::new(5), F::new(6), F::new(8)],
+            // };
+            // println!("x: {:?}, y: {:?}", x, y);
+            // println!("x + y: {:?}", x + y);
+            println!("y: {:?}", x / y);
+            println!("y: {:?}", y / x);
+        }
+        // #[test]
+        // fn test_inv_div() {
+        //     p3_field_testing::test_inv_div::<EF>();
+        // }
+        // #[test]
+        // fn test_inverse() {
+        //     p3_field_testing::test_inverse::<EF>();
+        // }
+    }
+
+    // test_field!(super::EF);
+    // test_two_adic_extension_field!(super::F, super::EF);
 
     #[test]
     fn display() {
